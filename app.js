@@ -35,10 +35,26 @@ const WeaterModule = (function () {
         console.log(res)
         let weatherCard = WeatherData(res)
         console.log(weatherCard)
+        displayWeatherData(weatherCard)
       })
   }
 
-  function displayWeatherData() {}
+  function displayWeatherData(obj) {
+    const title = document.querySelector('#title')
+    const date = document.querySelector('#date')
+    const temp = document.querySelector('#temp')
+    const icon = document.querySelector('#icon')
+    const feels_like = document.querySelector('#infos #feels-like')
+    const humidity = document.querySelector('#infos #humidity')
+    const wind = document.querySelector('#infos #wind')
+    const temp_secondary = document.querySelector('#temp_secondary')
+    title.textContent = obj.name
+    date.textContent = new Date(Date.now()).toDateString()
+    temp.textContent = obj.temp
+    feels_like.textContent = 'Feels like: ' + obj.feels
+    humidity.textContent = 'Humidity: ' + obj.humidity
+    wind.textContent = 'Wind: ' + obj.wind
+  }
 })()
 
 // factory to create a weather object
@@ -46,9 +62,11 @@ function WeatherData(data) {
   let name = data.name
   let temp = data.main.temp
   let feels = data.main.feels_like
+  let humidity = data.main.humidity
+  let wind = data.wind.speed
   let sky = data.weather[0].main
   let iconId = data.weather[0].icon
   let iconUrl = `https://openweathermap.org/img/wn/${iconId}@2x.png`
 
-  return { name, temp, feels, sky, iconUrl }
+  return { name, temp, feels, humidity, wind, sky, iconUrl }
 }

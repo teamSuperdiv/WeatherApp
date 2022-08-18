@@ -24,7 +24,7 @@ footer {
 }
 
 .container {
-  width: 100vw;
+  margin: auto;
   height: calc(100vh - 4vh);
   display: flex;
   flex-wrap: wrap;
@@ -43,17 +43,31 @@ footer {
   flex: auto;
   display: flex;
   justify-content: center;
+  align-content: stretch;
   align-items: center;
 }
 
+#location {
+  padding: 0.5rem;
+  border-radius: 10px;
+}
+
+#location:focus-visible {
+  outline: none;
+}
+
 .card {
-  width: 40%;
+  width: 350px;
   height: 300px;
-  min-width: 350px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 20% 50% 30%;
+  padding: 1.5rem;
 }
 
 .card.glass {
   background: rgba(255, 255, 255, 0.1);
+  color: white;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(5.5px);
   -webkit-backdrop-filter: blur(5.5px);
@@ -61,14 +75,33 @@ footer {
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
-@media screen and (min-width: 900px) {
-    .title {
-        padding-right: 5rem;
-        justify-content: flex-end;
-    }
+.card > #title {
+  text-transform: uppercase;
+  word-wrap: break-word;
+}
 
-    .inlay {
-        padding-left: 5rem;
-        justify-content: flex-start;
-    }
+.card > #date {
+  text-align: end;
+}
+
+.card > #temp {
+  font-size: 5rem;
+}
+
+.card #infos {
+  list-style-type: none;
+}
+
+.card #infos > li {
+  margin-bottom: 0.5rem;
+}
+
+@media screen and (min-width: 900px) {
+  .container {
+    max-width: 60vw;
+  }
+
+  .card {
+    width: 500px;
+  }
 }
