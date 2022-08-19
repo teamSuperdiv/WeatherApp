@@ -27,7 +27,7 @@ const WeaterModule = (function () {
 
   function getWeatherData(location) {
     // public api key
-    const apiKey = '5429122ecd2ea02799aa257298b0eaba'
+    const apiKey = ''
     fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`
     )
