@@ -15,25 +15,28 @@
         <div class="title">
             <div>
                 <h1>The <br> Weather</h1>
-                <input type="text" id="location" placeholder="Enter City here">
-                <button id="getWeatherBtn">Get Data</button>
+                <input type="text" id="location" placeholder="Enter City here" tabindex="1" autofocus>
+                <button id="getWeatherBtn">GO</button>
             </div>
         </div>
         <div class="inlay">
             <div class="card glass">
                 <h2 id="title"></h2>
                 <div id="date"></div>
-                <div id="temp"></div>
+                <div id="temp">
+                    <h1 id="num"></h1>
+                    <span id="celsius"></span>
+                </div>
                 <div id="icon">
                     <img src="" alt="">
-                    <p id="sky"></p>
+                    <h3 id="sky"></h3>
+                    <p id="temp_secondary"></p>
                 </div>
                 <ul id="infos">
                     <li id="feels-like"></li>
                     <li id="humidity"></li>
                     <li id="wind"></li>
                 </ul>
-                <div id="temp_secondary"></div>
             </div>
         </div>
     </div>

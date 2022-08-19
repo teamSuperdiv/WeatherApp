@@ -56,13 +56,31 @@ footer {
   outline: none;
 }
 
+#getWeatherBtn {
+  padding: .5rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background-color: white;
+}
+
+#getWeatherBtn:focus {
+  background-color: lightblue;
+}
+
 .card {
   width: 350px;
   height: 300px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 60% 40%;
   grid-template-rows: 20% 50% 30%;
-  padding: 1.5rem;
+  padding: 2rem;
+  transition: 0.3s ease-in;
+  opacity: 0;
+}
+
+.card.show {
+  opacity: 100;
 }
 
 .card.glass {
@@ -77,15 +95,21 @@ footer {
 
 .card > #title {
   text-transform: uppercase;
-  word-wrap: break-word;
-}
-
-.card > #date {
-  text-align: end;
+  word-wrap: break-word; 
 }
 
 .card > #temp {
-  font-size: 5rem;
+  display: flex;
+  gap: 3px;
+  padding-top: 1rem;
+}
+
+#temp > #num {
+  font-size: 4rem;
+}
+
+#temp > #celsius {
+  font-size: 2rem;
 }
 
 .card #infos {
@@ -93,15 +117,25 @@ footer {
 }
 
 .card #infos > li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.card > #icon {
+  grid-column-start: 2;
+  grid-row: 2 / 4;
+  text-align: center;
+}
+
+.card > #date {
+  text-align: center;
 }
 
 @media screen and (min-width: 900px) {
   .container {
-    max-width: 60vw;
+    max-width: 900px;
   }
 
   .card {
-    width: 500px;
+    width: 450px;
   }
 }

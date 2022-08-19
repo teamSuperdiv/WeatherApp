@@ -1,59 +1,75 @@
 const WeaterModule = (function () {
   const btn = document.querySelector('#getWeatherBtn')
+  const location = document.querySelector('#location')
 
-  // click Listener to fetch weatherdata
+  // event Listener to fetch weatherdata
   btn.addEventListener('click', function () {
-    const location = document.querySelector('#location').value
-    getWeatherData(location)
+    const val = location.value
+    if (val === '') {
+      alert('Please enter a city name')
+    } else {
+      getWeatherData(val)
+      document.querySelector('#location').value = ''
+    }
+  })
+
+  location.addEventListener('keyup', function (e) {
+    if (e.keyCode === 13) {
+      const val = location.value
+      if (val === '') {
+        alert('Please enter a city name')
+      } else {
+        getWeatherData(val)
+        document.querySelector('#location').value = ''
+      }
+    }
   })
 
   function getWeatherData(location) {
     // public api key
-    const apiKey = ''
-    // fetch cords from cityname
+    const apiKey = '5429122ecd2ea02799aa257298b0eaba'
     fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${apiKey}`,
-      { mode: 'cors' }
+      `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`
     )
       .then(function (res) {
-        return res.json()
-      })
-      .then(function (res) {
-        const { lat, lon } = res[0]
-        return [lat, lon]
-      })
-      .then(function (res) {
-        // fetch weatherdata from cords
-        return fetch(
-          `https://api.openweathermap.org/data/2.5/weather?lat=${res[0]}&lon=${res[1]}&appid=${apiKey}&units=metric`
-        )
-      })
-      .then(function (res) {
+        if (res.status === 404) {
+          throw new Error('City not found!')
+        }
         return res.json()
       })
       .then(function (res) {
         console.log(res)
         let weatherCard = WeatherData(res)
-        console.log(weatherCard)
         displayWeatherData(weatherCard)
+      })
+      .catch(function (err) {
+        alert(err)
+        document.querySelector('#location').value = ' '
       })
   }
 
   function displayWeatherData(obj) {
+    const card = document.querySelector('.card')
     const title = document.querySelector('#title')
     const date = document.querySelector('#date')
-    const temp = document.querySelector('#temp')
-    const icon = document.querySelector('#icon')
+    const temp = document.querySelector('#num')
+    const unit = document.querySelector('#celsius')
+    const icon = document.querySelector('#icon img')
+    const sky = document.querySelector('#sky')
     const feels_like = document.querySelector('#infos #feels-like')
     const humidity = document.querySelector('#infos #humidity')
     const wind = document.querySelector('#infos #wind')
-    const temp_secondary = document.querySelector('#temp_secondary')
     title.textContent = obj.name
-    date.textContent = new Date(Date.now()).toDateString()
-    temp.textContent = obj.temp
-    feels_like.textContent = 'Feels like: ' + obj.feels
+    date.textContent = new Date(Date.now()).toLocaleDateString()
+    temp.textContent = Math.floor(obj.temp)
+    unit.textContent = '°C'
+    icon.src = obj.iconUrl
+    sky.textContent = obj.sky
+    feels_like.textContent = 'Feels like: ' + Math.floor(obj.feels) + ' °C'
     humidity.textContent = 'Humidity: ' + obj.humidity
-    wind.textContent = 'Wind: ' + obj.wind
+    wind.textContent = 'Wind: ' + obj.wind + ' km/h'
+
+    card.classList.add('show')
   }
 })()
 
