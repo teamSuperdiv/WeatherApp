@@ -1,35 +1,42 @@
 const WeaterModule = (function () {
   const btn = document.querySelector('#getWeatherBtn')
+  const locationInput = document.querySelector('#location')
   const location = document.querySelector('#location')
+  const tempSwitch = document.querySelector('#temp-switch')
+  let measurement = 'metric'
+  let locationVal = null
 
-  // event Listener to fetch weatherdata
-  btn.addEventListener('click', function () {
-    const val = location.value
-    if (val === '') {
+  // event Listeners to fetch weatherdata
+  btn.addEventListener('click', () => {
+    locationVal = location.value
+    if (locationVal === '') {
       alert('Please enter a city name')
     } else {
-      getWeatherData(val)
+      getWeatherData(locationVal, measurement)
       document.querySelector('#location').value = ''
     }
+    console.log(locationVal)
   })
 
-  location.addEventListener('keyup', function (e) {
+  locationInput.addEventListener('keyup', (e) => {
     if (e.keyCode === 13) {
-      const val = location.value
-      if (val === '') {
+      locationVal = location.value
+      if (locationVal === '') {
         alert('Please enter a city name')
       } else {
-        getWeatherData(val)
+        getWeatherData(locationVal, measurement)
         document.querySelector('#location').value = ''
       }
     }
   })
 
-  function getWeatherData(location) {
+  tempSwitch.addEventListener('change', (e) => toggleTempMeasurement(e.target))
+
+  function getWeatherData(location, measurement) {
     // public api key
-    const apiKey = ''
+    const apiKey = '5429122ecd2ea02799aa257298b0eaba'
     fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`
+      `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=${measurement}`
     )
       .then(function (res) {
         if (res.status === 404) {
@@ -38,7 +45,7 @@ const WeaterModule = (function () {
         return res.json()
       })
       .then(function (res) {
-        console.log(res)
+        // console.log(res)
         let weatherCard = WeatherData(res)
         displayWeatherData(weatherCard)
       })
@@ -48,12 +55,22 @@ const WeaterModule = (function () {
       })
   }
 
+  function toggleTempMeasurement(tempSwitch) {
+    if (tempSwitch.checked) {
+      measurement = 'imperial'
+      getWeatherData(locationVal, measurement)
+    } else {
+      measurement = 'metric'
+      getWeatherData(locationVal, measurement)
+    }
+  }
+
   function displayWeatherData(obj) {
     const card = document.querySelector('.card')
     const title = document.querySelector('#title')
     const date = document.querySelector('#date')
     const temp = document.querySelector('#num')
-    const unit = document.querySelector('#celsius')
+    const unit = document.querySelector('#measure-unit')
     const icon = document.querySelector('#icon img')
     const sky = document.querySelector('#sky')
     const feels_like = document.querySelector('#infos #feels-like')
@@ -62,7 +79,9 @@ const WeaterModule = (function () {
     title.textContent = obj.name
     date.textContent = new Date(Date.now()).toLocaleDateString()
     temp.textContent = Math.floor(obj.temp)
-    unit.textContent = '°C'
+    if (measurement === 'metric') {
+      unit.textContent = '°C'
+    } else unit.textContent = '°F'
     icon.src = obj.iconUrl
     sky.textContent = obj.sky
     feels_like.textContent = 'Feels like: ' + Math.floor(obj.feels) + ' °C'
