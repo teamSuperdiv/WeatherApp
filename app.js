@@ -81,13 +81,16 @@ const WeaterModule = (function () {
     temp.textContent = Math.floor(obj.temp)
     if (measurement === 'metric') {
       unit.textContent = '°C'
-    } else unit.textContent = '°F'
+      feels_like.textContent = 'Feels like: ' + Math.floor(obj.feels) + ' °C'
+      wind.textContent = 'Wind: ' + obj.wind + ' kmph'
+    } else {
+      unit.textContent = '°F'
+      feels_like.textContent = 'Feels like: ' + Math.floor(obj.feels) + ' °F'
+      wind.textContent = 'Wind: ' + obj.wind + ' mph'
+    } 
     icon.src = obj.iconUrl
     sky.textContent = obj.sky
-    feels_like.textContent = 'Feels like: ' + Math.floor(obj.feels) + ' °C'
     humidity.textContent = 'Humidity: ' + obj.humidity
-    wind.textContent = 'Wind: ' + obj.wind + ' km/h'
-
     card.classList.add('show')
   }
 })()
